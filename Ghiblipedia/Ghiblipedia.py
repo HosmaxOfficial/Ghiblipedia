@@ -4,7 +4,6 @@ r = requests.get("https://ghibliapi.herokuapp.com/films")
 propList = ["id", "title", "description", "director", "producer", "release_date", "rt_score"]
 
 
-
 def menuPrincipal():
     print()
     print("Elige opción")
