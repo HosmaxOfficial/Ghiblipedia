@@ -67,11 +67,11 @@ if menu == "1":
         showMovies()
 
     else:
-        print("Opción no encontrada")
+        print("Option not found")
 
 
 elif menu == "2":
     quit()
     
 else:
-    print("Opción no encontrada")
+    print("Option not found")
