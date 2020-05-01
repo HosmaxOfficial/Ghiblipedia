@@ -1,22 +1,25 @@
 import requests, json
+from os import system
 
 r = requests.get("https://ghibliapi.herokuapp.com/films") 
 propList = ["id", "title", "description", "director", "producer", "release_date", "rt_score"]
 
 
-def menuPrincipal():
+
+def mainMenu():
+    
     print()
-    print("Elige opción")
-    print("1. Películas")
-    print("2. Salir")
-    respuesta = input()
-    return respuesta
+    print("Choose an option")
+    print("1. Movies")
+    print("2. Quit")
+    mainMenu = input()
+    return mainMenu
     
 def showMovies():
-   
+    
     status = r.status_code
     if status == 200:
-        print("Todo correcto")
+        print("Request done")
 
     print()
     i = 1
@@ -25,34 +28,37 @@ def showMovies():
         print(i,movie["title"])
         i = i + 1
 
-    print("¿De qué película quieres información?")
+    print("Which movie do you want to get information?")
     selectedMovie = input()
     return selectedMovie
 
-def menuPelis():                                                             #Datos de la pelicula seleccionada
-    print("¿Qué quieres saber?")
+def movieMenu():                                                             #Datos de la pelicula seleccionada
+    
+    print("What do you want to know?")
     print("1. ID")
-    print("2. Título")
-    print("3. Descripción")
+    print("2. Title")
+    print("3. Description")
     print("4. Director")
-    print("5. Productor")
-    print("6. Fecha de lanzamiento")
-    print("7. Puntuación")
-    print("8. Volver al menú")
-    datoPeli = input()
-    return datoPeli
+    print("5. Producer")
+    print("6. Release date")
+    print("7. Score")
+    print("8. Back to menu")
+    movieInfo = input()
+    return movieInfo
 
-#INICIO------------------------------------------------------------------
+#START------------------------------------------------------------------
 
-menuChoice = menuPrincipal()
+system('cls')
+
+menu = mainMenu()
 
 
-if menuChoice == "1":
+if menu == "1":
     print()
 
     selectedMovie = showMovies()
 
-    datoPeli = menuPelis()
+    datoPeli = movieMenu()
 
     if datoPeli < "8":
         print(r.json()[int(selectedMovie)-1][propList[int(datoPeli)-1]])
@@ -64,7 +70,7 @@ if menuChoice == "1":
         print("Opción no encontrada")
 
 
-elif menuChoice == "2":
+elif menu == "2":
     quit()
     
 else:
