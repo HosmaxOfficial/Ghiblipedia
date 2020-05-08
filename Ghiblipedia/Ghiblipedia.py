@@ -13,9 +13,12 @@ def mainMenu():
     print("1. Movies")
     print("2. Quit")
     mainMenu = input()
-    return mainMenu
     
-def showMovies():
+    return detectWrongOption(mainMenu)
+    
+
+
+def movieList():
     
     status = r.status_code
     if status == 200:
@@ -28,11 +31,16 @@ def showMovies():
         print(i,movie["title"])
         i = i + 1
 
+    print(i, "Back to the menu")
     print("Which movie do you want to get information?")
     selectedMovie = input()
-    return selectedMovie
 
-def movieMenu():                                                             #Datos de la pelicula seleccionada
+    return detectWrongOption(selectedMovie)
+
+
+
+
+def movieInfo():                                                             
     
     print("What do you want to know?")
     print("1. ID")
@@ -42,36 +50,81 @@ def movieMenu():                                                             #Da
     print("5. Producer")
     print("6. Release date")
     print("7. Score")
-    print("8. Back to menu")
+    print("8. Choose another movie")
     movieInfo = input()
-    return movieInfo
+    
+    return detectWrongOption(movieInfo)
+
+
+
+#SHOW THE REQUESTED INFORMATION ABOUT A MOVIE
+def showMovieInfo(selectedMovie, movieInfo):
+
+
+    if movieInfo < 8 and movieInfo > 0:
+        print(r.json()[selectedMovie-1][propList[movieInfo-1]])
+        input("Press Enter to choose another movie")
+        return 1
+
+    elif movieInfo > 8 or movieInfo <= 0:
+        print("Option not found")
+        return 0
+
+
+
+#DETECT WRONGS CHOICES LIKE NEGATIVE NUMBERS OR LETTERS
+def detectWrongOption(x):
+    if (x.isdigit()):            
+        if int(x) <= 0:
+            return 0
+        else:
+            return int(x)
+    else:
+        return 0
+
+
 
 #START------------------------------------------------------------------
 
-system('cls')
 
-menu = mainMenu()
+mainMenuOp = -1
+selectedMovie = 0
+movieInfor = 0
 
-
-if menu == "1":
-    print()
-
-    selectedMovie = showMovies()
-
-    datoPeli = movieMenu()
-
-    if datoPeli < "8":
-        print(r.json()[int(selectedMovie)-1][propList[int(datoPeli)-1]])
-        
-    elif datoPeli == "8":
-        showMovies()
-
-    else:
-        print("Option not found")
+h = 0
 
 
-elif menu == "2":
-    quit()
+
+
+while mainMenuOp != 2:
+    system('cls')
     
-else:
-    print("Option not found")
+    mainMenuOp = mainMenu()
+
+#    print(mainMenuOp)                                               
+#    print(type(mainMenuOp))
+
+    if mainMenuOp == 1:
+        print()
+        while selectedMovie != 21:
+
+            selectedMovie = movieList()
+
+            if selectedMovie < 21 and selectedMovie > 0:
+
+                movieInfor = movieInfo()
+
+                showMovieInfo(selectedMovie, movieInfor)
+
+            elif selectedMovie > 21:
+
+                print("Option not found")
+        
+        selectedMovie = "a"
+
+    
+    elif mainMenuOp == -1:                                                         #First loop 
+        continue
+
+    elif mainMenuOp != 2 and mainMenuOp != 1:
+        print("Option not found")
